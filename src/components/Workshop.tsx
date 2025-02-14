@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Calendar, MapPin, Clock, Users, ArrowLeft, Laptop, BookOpen, Award } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import WorkshopRegistration from './WorkshopRegistration';
 
 const SHEET_ID = '1FwMHh5uyxN5Z0_Fu57xFW8-21ZemOkdyYOcw1NBVnqE';
 const API_KEY = 'AIzaSyBWUstEae96E-SWITiV_sy_r4UGRdwCCxo';
@@ -49,10 +50,6 @@ const Workshop: React.FC = () => {
       })
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
-
-  const handleRegisterClick = (workshopTitle: string) => {
-    navigate(`/workshopregister?workshop=${encodeURIComponent(workshopTitle)}`);
-  };
 
   return (
     <div className="pt-20 pb-24 bg-[#003A57]">
@@ -106,7 +103,7 @@ const Workshop: React.FC = () => {
                     <div className="flex items-center justify-between">
                       <span className="text-2xl font-bold text-[#99CCFF]">{workshop.price}</span>
                       <button 
-                        onClick={() => handleRegisterClick(workshop.title)}
+                        onClick={() => navigate('/workshopregister')}
                         className="bg-[#3399FF] hover:bg-[#1a8cff] text-white px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105"
                       >
                         Register Now
