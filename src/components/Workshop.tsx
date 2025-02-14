@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react"; 
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Calendar, MapPin, Clock, Users, ArrowLeft, Laptop, BookOpen, Award } from "lucide-react";
+import { Calendar, MapPin, Clock, Users, ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 const SHEET_ID = "1FwMHh5uyxN5Z0_Fu57xFW8-21ZemOkdyYOcw1NBVnqE";
 const API_KEY = "AIzaSyBWUstEae96E-SWITiV_sy_r4UGRdwCCxo";
 const SHEET_NAME = "workshops";
-const GOOGLE_SHEET_URL = https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY};
+const GOOGLE_SHEET_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
 
 const Workshop = () => {
-  const [workshops, setWorkshops] = useState([]);
+  const [workshops, setWorkshops] = useState<any[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,19 +18,18 @@ const Workshop = () => {
       .then((response) => {
         const rows = response.data.values;
         if (rows && rows.length > 1) {
-          const formattedWorkshops = rows.slice(1).map((row, index) => ({
+          const formattedWorkshops = rows.slice(1).map((row: string[], index: number) => ({
             id: index + 1,
-            title: row[0],
-            titleEn: row[1],
-            date: row[2],
-            time: row[3],
-            location: row[4],
-            instructor: row[5],
-            seats: row[6],
-            price: row[7],
-            description: row[8],
+            title: row[0] || "No Title",
+            titleEn: row[1] || "No English Title",
+            date: row[2] || "Date not available",
+            time: row[3] || "Time not available",
+            location: row[4] || "Location not available",
+            instructor: row[5] || "Instructor not available",
+            seats: row[6] || "Seats not available",
+            price: row[7] || "Free",
+            description: row[8] || "No description available",
             topics: row[9] ? row[9].split(";") : [],
-            registrationLink: row[10],
           }));
           setWorkshops(formattedWorkshops);
         }
@@ -39,7 +38,7 @@ const Workshop = () => {
   }, []);
 
   const handleRegisterClick = (titleEn: string) => {
-    navigate(/register/${encodeURIComponent(titleEn)});
+    navigate(`/register/${encodeURIComponent(titleEn)}`);
     window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top
   };
 
