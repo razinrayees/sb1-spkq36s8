@@ -8,36 +8,10 @@ const Contact = ({ id }: { id?: string }) => {
     message: ''
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    const scriptURL = "https://script.google.com/macros/s/AKfycbys3OFXOMzxwXfOBIdEDI9HzDuXlB8_PD3eR0UUKUddJYfRQ-s3Z0C-7cH-sIyT7tm6sg/exec"; // Replace with your actual script URL
-
-    try {
-      const response = await fetch(scriptURL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
-      });
-
-      if (response.ok) {
-        setSuccessMessage("Message sent successfully!");
-        setFormData({ name: "", email: "", message: "" }); // Reset form
-      } else {
-        throw new Error("Form submission failed");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setSuccessMessage("Failed to send message. Try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Handle form submission
+    console.log(formData);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -52,7 +26,7 @@ const Contact = ({ id }: { id?: string }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Get in 
+            Get in
             <span className="bg-gradient-to-r from-[#66B2FF] to-[#99CCFF] text-transparent bg-clip-text"> Touch</span>
           </h2>
           <p className="text-xl text-white/80 max-w-2xl mx-auto">
@@ -63,42 +37,48 @@ const Contact = ({ id }: { id?: string }) => {
         <div className="max-w-2xl mx-auto">
           <form onSubmit={handleSubmit} className="space-y-8">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-white mb-2">Name</label>
+              <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
+                Name
+              </label>
               <input
                 type="text"
                 id="name"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:ring-2 focus:ring-[#66B2FF] focus:border-transparent text-white placeholder-white/50"
                 placeholder="Your name"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-white mb-2">Email</label>
+              <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
+                Email
+              </label>
               <input
                 type="email"
                 id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:ring-2 focus:ring-[#66B2FF] focus:border-transparent text-white placeholder-white/50"
                 placeholder="your@email.com"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="message" className="block text-sm font-medium text-white mb-2">Message</label>
+              <label htmlFor="message" className="block text-sm font-medium text-white mb-2">
+                Message
+              </label>
               <textarea
                 id="message"
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
                 rows={4}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:ring-2 focus:ring-[#66B2FF] focus:border-transparent text-white placeholder-white/50"
                 placeholder="Your message"
                 required
               />
@@ -106,20 +86,14 @@ const Contact = ({ id }: { id?: string }) => {
 
             <button
               type="submit"
-              className={`w-full px-8 py-4 rounded-lg transition-all duration-500 transform hover:scale-105 ${
-                isSubmitting ? "bg-gray-400" : "bg-[#3399FF] hover:bg-[#1a8cff] text-white"
-              }`}
-              disabled={isSubmitting}
+              className="w-full group relative overflow-hidden bg-[#3399FF] hover:bg-[#1a8cff] text-white px-8 py-4 rounded-lg transition-all duration-500 transform hover:scale-105"
             >
-              <span className="inline-flex items-center">
-                {isSubmitting ? "Sending..." : "Send Message"}
-                <Send className="ml-2 w-5 h-5" />
+              <span className="relative z-10 inline-flex items-center">
+                Send Message
+                <Send className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
+              <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-[#66B2FF] to-[#3399FF] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
             </button>
-
-            {successMessage && (
-              <p className="text-center text-white mt-4">{successMessage}</p>
-            )}
           </form>
         </div>
       </div>
