@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Calendar, MapPin, Clock, Users, ArrowLeft, Laptop, BookOpen, Award } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import WorkshopRegistration from './WorkshopRegistration';
 
 const SHEET_ID = '1FwMHh5uyxN5Z0_Fu57xFW8-21ZemOkdyYOcw1NBVnqE';
 const API_KEY = 'AIzaSyBWUstEae96E-SWITiV_sy_r4UGRdwCCxo';
@@ -55,9 +54,9 @@ const Workshop: React.FC = () => {
     <div className="pt-20 pb-24 bg-[#003A57]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <Link to="/" className="inline-flex items-center text-[#99CCFF] hover:text-white transition-colors group">
+          <Link to="/workshops" className="inline-flex items-center text-[#99CCFF] hover:text-white transition-colors group">
             <ArrowLeft className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
-            Back to Home
+            Back to Workshops
           </Link>
         </div>
 
@@ -86,29 +85,12 @@ const Workshop: React.FC = () => {
                     </div>
                   </div>
                   <div className="space-y-6">
-                    <div className="bg-[#003B5C] rounded-lg p-6">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center"><Laptop className="w-5 h-5 text-[#99CCFF] mr-2" />Topics Covered</h4>
-                      <ul className="space-y-2">
-                        {workshop.topics.map((topic, index) => (
-                          <li key={index} className="text-white/80 flex items-center">
-                            <BookOpen className="w-4 h-4 text-[#99CCFF] mr-2" />{topic}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="bg-[#003B5C] rounded-lg p-6">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center"><Award className="w-5 h-5 text-[#99CCFF] mr-2" />Instructor</h4>
-                      <p className="text-white/80">{workshop.instructor}</p>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl font-bold text-[#99CCFF]">{workshop.price}</span>
-                      <button 
-                        onClick={() => navigate('/workshopregister')}
-                        className="bg-[#3399FF] hover:bg-[#1a8cff] text-white px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105"
-                      >
-                        Register Now
-                      </button>
-                    </div>
+                    <button 
+                      onClick={() => navigate(`/workshopregister?title=${encodeURIComponent(workshop.title)}&titleEn=${encodeURIComponent(workshop.titleEn)}`)}
+                      className="bg-[#3399FF] hover:bg-[#1a8cff] text-white px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105"
+                    >
+                      Register Now
+                    </button>
                   </div>
                 </div>
               </div>
