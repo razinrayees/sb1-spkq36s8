@@ -9,16 +9,30 @@ const API_KEY = 'AIzaSyBWUstEae96E-SWITiV_sy_r4UGRdwCCxo';
 const SHEET_NAME = 'workshops';
 const GOOGLE_SHEET_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
 
-const Workshop = () => {
-  const [workshops, setWorkshops] = useState([]);
-  const [selectedWorkshop, setSelectedWorkshop] = useState(null);
+interface Workshop {
+  id: number;
+  title: string;
+  titleEn: string;
+  date: string;
+  time: string;
+  location: string;
+  instructor: string;
+  seats: string;
+  price: string;
+  description: string;
+  topics: string[];
+}
+
+const Workshop: React.FC = () => {
+  const [workshops, setWorkshops] = useState<Workshop[]>([]);
+  const [selectedWorkshop, setSelectedWorkshop] = useState<Workshop | null>(null);
 
   useEffect(() => {
     axios.get(GOOGLE_SHEET_URL)
       .then((response) => {
         const rows = response.data.values;
         if (rows && rows.length > 1) {
-          const formattedWorkshops = rows.slice(1).map((row, index) => ({
+          const formattedWorkshops = rows.slice(1).map((row: string[], index: number) => ({
             id: index + 1,
             title: row[0],
             titleEn: row[1],
@@ -30,7 +44,6 @@ const Workshop = () => {
             price: row[7],
             description: row[8],
             topics: row[9] ? row[9].split(';') : [],
-            registrationLink: row[10]
           }));
           setWorkshops(formattedWorkshops);
         }
@@ -89,12 +102,14 @@ const Workshop = () => {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-2xl font-bold text-[#99CCFF]">{workshop.price}</span>
-                      <button 
-                        onClick={() => setSelectedWorkshop(workshop)}
+                      <a 
+                        href={`https://tally.so/r/wz1jkq?workshop=${encodeURIComponent(workshop.title)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="bg-[#3399FF] hover:bg-[#1a8cff] text-white px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105"
                       >
                         Register Now
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -103,14 +118,6 @@ const Workshop = () => {
           </div>
         )}
       </div>
-
-      {selectedWorkshop && (
-        <WorkshopRegistration
-          isOpen={!!selectedWorkshop}
-          onClose={() => setSelectedWorkshop(null)}
-          workshop={selectedWorkshop}
-        />
-      )}
     </div>
   );
 };
