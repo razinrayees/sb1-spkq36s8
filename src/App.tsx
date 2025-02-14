@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import AboutPage from './components/AboutPage';
 import Workshop from './components/Workshop';
 import RegisterPage from './components/RegisterPage';
+import WorkshopRegistration from './components/WorkshopRegistration'; // Import the correct file
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/events" element={<EventsPage />} />
           <Route path="/workshop" element={<Workshop />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/workshopregister" element={<WorkshopRegistration />} /> {/* Add the new route */}
         </Routes>
         <Footer />
       </div>
