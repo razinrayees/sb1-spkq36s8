@@ -1,9 +1,7 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Calendar, MapPin, Clock, Users, ArrowLeft, Laptop, BookOpen, Award } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
-import WorkshopRegistration from './WorkshopRegistration';
+import { Link } from 'react-router-dom';
 
 const SHEET_ID = '1FwMHh5uyxN5Z0_Fu57xFW8-21ZemOkdyYOcw1NBVnqE';
 const API_KEY = 'AIzaSyBWUstEae96E-SWITiV_sy_r4UGRdwCCxo';
@@ -26,7 +24,6 @@ interface Workshop {
 
 const Workshop: React.FC = () => {
   const [workshops, setWorkshops] = useState<Workshop[]>([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(GOOGLE_SHEET_URL)
@@ -103,12 +100,12 @@ const Workshop: React.FC = () => {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-2xl font-bold text-[#99CCFF]">{workshop.price}</span>
-                      <button 
-                        onClick={() => navigate('/workshopregister')}
+                      <Link 
+                        to={`/workshopregister?titleEn=${encodeURIComponent(workshop.titleEn)}`}
                         className="bg-[#3399FF] hover:bg-[#1a8cff] text-white px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105"
                       >
                         Register Now
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
