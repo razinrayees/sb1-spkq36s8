@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Calendar, MapPin, Clock, Users, ArrowLeft, Laptop, BookOpen, Award } from 'lucide-react';
@@ -7,7 +8,7 @@ import WorkshopRegistration from './WorkshopRegistration';
 const SHEET_ID = '1FwMHh5uyxN5Z0_Fu57xFW8-21ZemOkdyYOcw1NBVnqE';
 const API_KEY = 'AIzaSyBWUstEae96E-SWITiV_sy_r4UGRdwCCxo';
 const SHEET_NAME = 'workshops';
-const GOOGLE_SHEET_URL = https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY};
+const GOOGLE_SHEET_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
 
 interface Workshop {
   id: number;
@@ -119,3 +120,5 @@ const Workshop: React.FC = () => {
     </div>
   );
 };
+
+export default Workshop;
