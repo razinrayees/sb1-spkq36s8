@@ -1,23 +1,58 @@
-import React, { useState } from 'react';
-import { Send } from 'lucide-react';
+import React, { useState } from "react";
+import { Send } from "lucide-react";
 
 const Contact = ({ id }: { id?: string }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
+    name: "",
+    email: "",
+    message: "",
   });
+  const [success, setSuccess] = useState(false); // Success state
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
+
+    const formUrl =
+      "https://docs.google.com/forms/d/e/1FAIpQLSdOhx-zIiz_FFIbiNE3XaVvwX7mhDif5N3wVcJYDJhh4bH2fg/formResponse";
+
+    const formBody = new URLSearchParams();
+    formBody.append("entry.1787852691", formData.name);
+    formBody.append("entry.1743107482", formData.email);
+    formBody.append("entry.1545881790", formData.message);
+
+    try {
+      await fetch(formUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formBody.toString(),
+      });
+
+      // Show success message
+      setSuccess(true);
+
+      // Clear form after submission
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+
+      // Hide message after 5 seconds
+      setTimeout(() => setSuccess(false), 5000);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -27,17 +62,24 @@ const Contact = ({ id }: { id?: string }) => {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Get in
-            <span className="bg-gradient-to-r from-[#66B2FF] to-[#99CCFF] text-transparent bg-clip-text"> Touch</span>
+            <span className="bg-gradient-to-r from-[#66B2FF] to-[#99CCFF] text-transparent bg-clip-text">
+              {" "}
+              Touch
+            </span>
           </h2>
           <p className="text-xl text-white/80 max-w-2xl mx-auto">
-            Have questions or want to join our community? We'd love to hear from you.
+            Have questions or want to join our community? We'd love to hear from
+            you.
           </p>
         </div>
 
         <div className="max-w-2xl mx-auto">
           <form onSubmit={handleSubmit} className="space-y-8">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-white mb-2"
+              >
                 Name
               </label>
               <input
@@ -53,7 +95,10 @@ const Contact = ({ id }: { id?: string }) => {
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-white mb-2"
+              >
                 Email
               </label>
               <input
@@ -69,7 +114,10 @@ const Contact = ({ id }: { id?: string }) => {
             </div>
 
             <div>
-              <label htmlFor="message" className="block text-sm font-medium text-white mb-2">
+              <label
+                htmlFor="message"
+                className="block text-sm font-medium text-white mb-2"
+              >
                 Message
               </label>
               <textarea
@@ -95,6 +143,13 @@ const Contact = ({ id }: { id?: string }) => {
               <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-[#66B2FF] to-[#3399FF] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
             </button>
           </form>
+
+          {/* Success message */}
+          {success && (
+            <div className="mt-4 text-center text-white text-sm">
+              Your message has been sent successfully.
+            </div>
+          )}
         </div>
       </div>
     </section>

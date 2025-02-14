@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const GOOGLE_SHEET_ID = '1FwMHh5uyxN5Z0_Fu57xFW8-21ZemOkdyYOcw1NBVnqE';
 const API_KEY = 'AIzaSyBWUstEae96E-SWITiV_sy_r4UGRdwCCxo';
-const SHEET_NAME = 'Form responses 1';
+const SHEET_NAME = 'CommunityMembers';
 
 const Community = () => {
   const [influencers, setInfluencers] = useState([]);

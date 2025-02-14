@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Users, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import AddCommunityMember from './AddCommunityMember'; // Import AddCommunityMember component
 
 const SHEET_ID = '1FwMHh5uyxN5Z0_Fu57xFW8-21ZemOkdyYOcw1NBVnqE';
 const API_KEY = 'AIzaSyBWUstEae96E-SWITiV_sy_r4UGRdwCCxo';
-const SHEET_NAME = 'Form responses 1';
+const SHEET_NAME = 'CommunityMembers';
 
 const CommunityFull = () => {
   const [allMembers, setAllMembers] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -37,14 +39,22 @@ const CommunityFull = () => {
   return (
     <div className="pt-20 pb-24 bg-[#003A57]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <Link 
+        <div className="mb-8 flex justify-between items-center">
+          <Link
             to="/"
             className="inline-flex items-center text-[#99CCFF] hover:text-white transition-colors group"
           >
             <ArrowLeft className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
             Back to Home
           </Link>
+
+          <button
+            onClick={() => setIsModalOpen(true)} // Open modal on button click
+            className="inline-flex items-center text-[#99CCFF] hover:text-white transition-colors group"
+          >
+            <Users className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" />
+            Add a Member
+          </button>
         </div>
 
         <div className="text-center mb-16">
@@ -78,6 +88,12 @@ const CommunityFull = () => {
           ))}
         </div>
       </div>
+
+      {/* Modal for adding a community member */}
+      <AddCommunityMember 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} // Close the modal on cancel
+      />
     </div>
   );
 };
