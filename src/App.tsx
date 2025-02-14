@@ -10,6 +10,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AboutPage from './components/AboutPage';
 import Workshop from './components/Workshop';
+import RegisterPage from './components/RegisterPage';
 
 function App() {
   return (
@@ -25,26 +26,11 @@ function App() {
               <Contact id="contact" />
             </div>
           } />
-          <Route path="/about" element={
-            <div className="transition-opacity duration-300 ease-in-out">
-              <AboutPage />
-            </div>
-          } />
-          <Route path="/community" element={
-            <div className="transition-opacity duration-300 ease-in-out">
-              <CommunityFull />
-            </div>
-          } />
-          <Route path="/events" element={
-            <div className="transition-opacity duration-300 ease-in-out">
-              <EventsPage />
-            </div>
-          } />
-          <Route path="/workshop" element={
-            <div className="transition-opacity duration-300 ease-in-out">
-              <Workshop />
-            </div>
-          } />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/community" element={<CommunityFull />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/workshop" element={<Workshop />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
         <Footer />
       </div>
@@ -52,4 +38,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
