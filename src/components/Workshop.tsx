@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Calendar, MapPin, Clock, Users, ArrowLeft, Laptop, BookOpen, Award } from "lucide-react";
-import { Link } from "react-router-dom";
-import WorkshopRegistration from "./WorkshopRegistration";
+import {
+  Calendar,
+  MapPin,
+  Clock,
+  Users,
+  ArrowLeft,
+} from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 const SHEET_ID = "1FwMHh5uyxN5Z0_Fu57xFW8-21ZemOkdyYOcw1NBVnqE";
 const API_KEY = "AIzaSyBWUstEae96E-SWITiV_sy_r4UGRdwCCxo";
@@ -11,7 +16,7 @@ const GOOGLE_SHEET_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_
 
 const Workshop = () => {
   const [workshops, setWorkshops] = useState([]);
-  const [selectedWorkshop, setSelectedWorkshop] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -39,9 +44,9 @@ const Workshop = () => {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
-  const handleRegisterClick = (titleEn: string) => {
-    setSelectedWorkshop(titleEn);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top
+  const handleRegisterClick = (titleEn) => {
+    navigate(`/register/${encodeURIComponent(titleEn)}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -96,25 +101,6 @@ const Workshop = () => {
                     </div>
                   </div>
                   <div className="space-y-6">
-                    <div className="bg-[#003B5C] rounded-lg p-6">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                        <Laptop className="w-5 h-5 text-[#99CCFF] mr-2" />Topics Covered
-                      </h4>
-                      <ul className="space-y-2">
-                        {workshop.topics.map((topic, index) => (
-                          <li key={index} className="text-white/80 flex items-center">
-                            <BookOpen className="w-4 h-4 text-[#99CCFF] mr-2" />
-                            {topic}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="bg-[#003B5C] rounded-lg p-6">
-                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                        <Award className="w-5 h-5 text-[#99CCFF] mr-2" />Instructor
-                      </h4>
-                      <p className="text-white/80">{workshop.instructor}</p>
-                    </div>
                     <div className="flex items-center justify-between">
                       <span className="text-2xl font-bold text-[#99CCFF]">{workshop.price}</span>
                       <button
@@ -131,8 +117,6 @@ const Workshop = () => {
           </div>
         )}
       </div>
-
-      {selectedWorkshop && <WorkshopRegistration workshopTitleEn={selectedWorkshop} />}
     </div>
   );
 };
